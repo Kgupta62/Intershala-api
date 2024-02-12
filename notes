@@ -1,1 +1,5 @@
 npm i --save  express mongoose dotenv morgan
+npm i bycrpt
+npm i --save express-session cookie-parser jsonweb
+npm i --save imagekit express-fileupload 
+npm i --save uuid
