@@ -16,6 +16,7 @@ exports.homepage = catchAsyncErrors(async(req,res,next) => {
 
 exports.currentEmploye = catchAsyncErrors(async(req,res,next) => {
     const employe = await Employe.findById(req.id).exec();
+    // console.log(employe);
     res.json({employe});
 });
 

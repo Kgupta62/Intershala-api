@@ -2,10 +2,12 @@ require("dotenv").config({path: './.env'})
 const express = require("express");
 const app = express();
 
+
 // db connection
 require("./models/database").connectDatabase();
 
 //logger(to know which route is hit in console)
+app.use(require('cors')({origin: true, credentials : true}))
 const logger = require("morgan");
 app.use(logger("tiny"));
 
@@ -31,7 +33,7 @@ app.use(fileupload());
 
 //routes
 app.use("/user",require("./routes/indexRoutes"));
-app.use("/resume",require("./routes/resumeRoutes"));
+app.use("/user/resume",require("./routes/resumeRoutes"));
 app.use("/employe",require("./routes/employeRoutes"));
 
 
@@ -42,8 +44,6 @@ app.all("*",(req,res,next) =>{
     next(new ErrorHandler(`Requested URL NOT FOUND ${req.url}`,404));
 });
 app.use(generatedErrors);
-
-
 
 app.listen(
     process.env.PORT,

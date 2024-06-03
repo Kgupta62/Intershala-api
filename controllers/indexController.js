@@ -23,14 +23,16 @@ exports.currentUser = catchAsyncErrors(async(req,res,next) => {
 exports.studentsignup = catchAsyncErrors(async(req,res,next) => {
     const student = await new Student(req.body).save();
     // res.status(201).json(student);
+    console.log(student)
     sendtoken(student,201,res);
 });
 
 exports.studentsignin = catchAsyncErrors(async(req,res,next) => {
+    console.log(req.body)
     const student = await Student.findOne({email: req.body.email})
     .select("+password")
     .exec();
-
+    console.log(student)
     if(!student) return next(new ErrorHandler("user not found with this email address",404));
 
     const isMatch = student.comparepassword(req.body.password);

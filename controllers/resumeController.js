@@ -8,12 +8,22 @@ exports.resume = catchAsyncErrors(async(req,res,next) => {
     res.json({message: "secure Resume page!",resume});
 });
 
-//education
-exports.addeducation = catchAsyncErrors(async(req,res,next) => {
+exports.addeducation = catchAsyncErrors(async (req, res, next) => {
     const student = await Student.findById(req.id).exec();
-    student.education.push({...req.body, id: uuidv4() });
-    await Student.save();
-    res.json({message: "Education added!"});
+    
+    if (!student) {
+        return res.status(404).json({ message: "Student not found!" });
+    }
+
+    // Initialize the education array if it does not exist
+    if (!student.education) {
+        student.education = [];
+    }
+
+    student.education.push({ ...req.body, id: uuidv4() });
+    await student.save();
+    
+    res.json({ message: "Education added!" });
 });
 
 exports.editeducation = catchAsyncErrors(async(req,res,next) => {
